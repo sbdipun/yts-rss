@@ -20,7 +20,7 @@ def post_to_telegram(bot_token, chat_id, items):
         message = (
             f"🎬 <b>{item['title']}</b>\n"
             f"📦 <b>Size: {item['size']}</b>\n\n"
-            f"🔗 Torrent: <pre><code>{item['torrent_link']}</code></pre>")
+            f"🔗 Torrent: <pre><code>{item['torrent_link']}</code></pre>"
         )
 
         send_url = f"https://api.telegram.org/bot {bot_token}/sendMessage"
