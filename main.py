@@ -38,7 +38,12 @@ def scheduled_job():
 # === Start Scheduler ===
 def start_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scheduled_job, 'interval', minutes=config.CHECK_INTERVAL_MINUTES)
+    scheduler.add_job(
+    scheduled_job,
+    'interval',
+    minutes=config.CHECK_INTERVAL_MINUTES,
+    max_instances=1
+)
     scheduler.start()
     logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
 
