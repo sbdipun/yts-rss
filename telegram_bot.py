@@ -30,6 +30,7 @@ def post_to_telegram(bot_token, chat_id, items):
         payload = {
             "chat_id": chat_id,
             "text": message
+            "parse_mode": "HTML"
         }
 
         try:
