@@ -8,6 +8,9 @@ logging.basicConfig(
 )
 
 def post_to_telegram(bot_token, chat_id, items):
+    logging.info(f"Using bot token: {bot_token}")
+    logging.info(f"Sending to chat_id: {chat_id}")
+    logging.info(f"Found {len(items)} items to process")
     new_items_posted = 0
 
     for item in items:
@@ -23,7 +26,7 @@ def post_to_telegram(bot_token, chat_id, items):
             f"🔗 Torrent: <pre><code>{item['torrent_link']}</code></pre>"
         )
 
-        send_url = f"https://api.telegram.org/bot {bot_token}/sendMessage"
+        send_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
         payload = {
             "chat_id": chat_id,
             "text": message
