@@ -35,7 +35,7 @@ def post_to_telegram(bot_token, chat_id, items):
                 logging.info(f"Posted: {item['title']}")
                 new_items_posted += 1
             else:
-                logging.error(f"Failed to post {item['title']}: {response.text}")
+                 logging.error(f"Failed to post {item['title']}: {response.status_code} - {response.text}")
         except Exception as e:
             logging.error(f"Exception posting {item['title']}: {e}")
 
