@@ -1,5 +1,5 @@
-from telegram import Bot
 import logging
+import requests
 from deduplicator import add_and_check_item
 
 logging.basicConfig(
@@ -8,11 +8,10 @@ logging.basicConfig(
 )
 
 def post_to_telegram(bot_token, chat_id, items):
-    bot = Bot(token=bot_token)
     new_items_posted = 0
 
     for item in items:
-        item_id = item['title']  # You can also use 'torrent_link' if you prefer
+        item_id = item['title']  # Or use item['torrent_link']
 
         if not add_and_check_item(item_id):
             logging.info(f"Skipping duplicate: {item['title']}")
@@ -20,15 +19,25 @@ def post_to_telegram(bot_token, chat_id, items):
 
         message = (
             f"🎬 <b>{item['title']}</b>\n"
-            f"📦 Size: {item['size']}\n"
-            f"🔗 Torrent: <a href='{item['torrent_link']}'>Download</a>"
+            f"📦 <b>Size: {item['size']}</b>\n\n"
+            f"🔗 Torrent: <pre><code>{item['torrent_link']}</code></pre>")
         )
+
+        send_url = f"https://api.telegram.org/bot {bot_token}/sendMessage"
+        payload = {
+            "chat_id": chat_id,
+            "text": message
+        }
+
         try:
-            bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
-            logging.info(f"Posted: {item['title']}")
-            new_items_posted += 1
+            response = requests.post(send_url, data=payload)
+            if response.status_code == 200:
+                logging.info(f"Posted: {item['title']}")
+                new_items_posted += 1
+            else:
+                logging.error(f"Failed to post {item['title']}: {response.text}")
         except Exception as e:
-            logging.error(f"Failed to post {item['title']}: {e}")
+            logging.error(f"Exception posting {item['title']}: {e}")
 
     if new_items_posted == 0:
         logging.info("No new items to post.")
