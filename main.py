@@ -1,7 +1,7 @@
 import logging
+import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
-import time
 
 # Local imports
 from rss_fetcher import fetch_rss_feed, extract_items
@@ -13,6 +13,10 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+
+# Log environment for debugging
+logging.info("App started")
+logging.info(f"Environment: {dict(os.environ)}")
 
 # === Flask App ===
 app = Flask(__name__)
@@ -35,16 +39,21 @@ def scheduled_job():
     except Exception as e:
         logging.error(f"Error during job execution: {e}")
 
-# === Start Scheduler ===
-def start_scheduler():
+# === Initialize Scheduler ===
+try:
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scheduled_job, 'interval', minutes=config.CHECK_INTERVAL_MINUTES)
-    scheduler.start()
-    logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
 
-# === Run App ===
-if __name__ == '__main__':
-    start_scheduler()
-
-    # Run Flask app
-    app.run(host='0.0.0.0', port=5000)
+    # Only add the job if not already added
+    if not scheduler.get_jobs():
+        scheduler.add_job(
+            scheduled_job,
+            'interval',
+            minutes=config.CHECK_INTERVAL_MINUTES,
+            max_instances=1
+        )
+        scheduler.start()
+        logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
+    else:
+        logging.warning("Scheduler job already exists.")
+except Exception as e:
+    logging.error(f"Failed to initialize scheduler: {e}")
