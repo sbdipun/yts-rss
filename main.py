@@ -1,7 +1,7 @@
 import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
-import atexit  # For graceful shutdown
+import time
 
 # Local imports
 from rss_fetcher import fetch_rss_feed, extract_items
@@ -35,19 +35,16 @@ def scheduled_job():
     except Exception as e:
         logging.error(f"Error during job execution: {e}")
 
-# === Initialize Scheduler ===
-scheduler = BackgroundScheduler()
-
-# Add job only if not already added (to prevent duplication on reloads)
-if not scheduler.get_jobs():
-    scheduler.add_job(
-        scheduled_job,
-        'interval',
-        minutes=config.CHECK_INTERVAL_MINUTES,
-        max_instances=1
-    )
+# === Start Scheduler ===
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(scheduled_job, 'interval', minutes=config.CHECK_INTERVAL_MINUTES)
     scheduler.start()
     logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
 
-# Register shutdown handler
-atexit.register(lambda: scheduler.shutdown(wait=False))
+# === Run App ===
+if __name__ == '__main__':
+    start_scheduler()
+
+    # Run Flask app
+    app.run(host='0.0.0.0', port=5000)
