@@ -29,7 +29,8 @@ def extract_items(rss_content):
         items.append({
             'title': title,
             'size': size,
-            'torrent_link': torrent_link
+            'torrent_link': torrent_link,
+            'source': 'yts'
         })
 
     return items
