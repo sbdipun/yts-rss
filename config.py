@@ -9,5 +9,9 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
 
 # Optional values
-RSS_URL = os.getenv("RSS_URL", "https://yts.mx/rss/0/all/all/0/all ")
+# config.py
+RSS_URLS = [
+    os.getenv("RSS_URL", "https://yts.mx/rss/0/all/all/0/all"),
+    os.getenv("HDENCODE_RSS_URL", "https://hdencode.org/feed/?sfw=pass1747284999")
+]
 CHECK_INTERVAL_MINUTES = int(os.getenv("CHECK_INTERVAL_MINUTES", "2"))
