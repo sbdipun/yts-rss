@@ -38,7 +38,7 @@ def post_to_telegram(bot_token, chat_id, items):
             # Default to HD Encode style
             message = (
                 f"📺 <b>{item['title']}</b>\n\n"
-                f"🧲 <b>Torrent:</b>\n"
+                f"🧲 <b>Link:</b>\n"
                 f"<b>{item['torrent_link']}</b>"
             )
 
@@ -46,7 +46,8 @@ def post_to_telegram(bot_token, chat_id, items):
         payload = {
             "chat_id": chat_id,
             "text": message,
-            "parse_mode": "HTML"
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True
         }
 
         attempt = 0
