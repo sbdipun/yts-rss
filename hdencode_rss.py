@@ -51,7 +51,7 @@ def parse_hdencode_feed(rss_content):
             items.append({
                 'title': title,
                 'torrent_link': torrent_link,
-                'source': 'HDENCODE'
+                'source': 'hdencode'
             })
 
         logger.info(f"Parsed {len(items)} items from HD Encode feed")
