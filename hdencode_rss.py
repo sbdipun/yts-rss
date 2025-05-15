@@ -50,7 +50,7 @@ def parse_hdencode_feed(rss_content):
 
             items.append({
                 'title': title,
-                'torrent_link': torrent_link
+                'torrent_link': torrent_link,
                 'source': 'HDENCODE'
             })
 
