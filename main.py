@@ -23,37 +23,30 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "RSS Telegram Poster is running!"
+    return "RSS is running!"
 
 # === Scheduler Job ===
 def scheduled_job():
-    logging.info("Fetching RSS feed...")
-    try:
-        rss_content = fetch_rss_feed(config.RSS_URL)
-        items = extract_items(rss_content)
-        post_to_telegram(
-            bot_token=config.TELEGRAM_BOT_TOKEN,
-            chat_id=config.TELEGRAM_CHANNEL_ID,
-            items=items
-        )
-    except Exception as e:
-        logging.error(f"Error during job execution: {e}")
+    logging.info("Fetching RSS feeds...")
+    all_items = []
 
-# === Initialize Scheduler ===
-try:
-    scheduler = BackgroundScheduler()
+    for rss_url in config.RSS_URLS:
+        try:
+            logging.info(f"Fetching from: {rss_url}")
+            rss_content = fetch_rss_feed(rss_url)
+            items = extract_items(rss_content)
+            all_items.extend(items)
+        except Exception as e:
+            logging.error(f"Error fetching feed {rss_url}: {e}")
 
-    # Only add the job if not already added
-    if not scheduler.get_jobs():
-        scheduler.add_job(
-            scheduled_job,
-            'interval',
-            minutes=config.CHECK_INTERVAL_MINUTES,
-            max_instances=1
-        )
-        scheduler.start()
-        logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
+    if all_items:
+        try:
+            post_to_telegram(
+                bot_token=config.TELEGRAM_BOT_TOKEN,
+                chat_id=config.TELEGRAM_CHANNEL_ID,
+                items=all_items
+            )
+        except Exception as e:
+            logging.error(f"Error during telegram posting: {e}")
     else:
-        logging.warning("Scheduler job already exists.")
-except Exception as e:
-    logging.error(f"Failed to initialize scheduler: {e}")
+        logging.info("No items found in any feed.")
