@@ -8,10 +8,12 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+logger = logging.getLogger(__name__)
+
 def post_to_telegram(bot_token, chat_id, items):
-    logging.info(f"Using bot token: {bot_token}")
-    logging.info(f"Sending to chat_id: {chat_id}")
-    logging.info(f"Found {len(items)} items to process")
+    logger.info(f"Using bot token: {'*' * len(bot_token)}")
+    logger.info(f"Sending to chat_id: {chat_id}")
+    logger.info(f"Found {len(items)} items to process")
 
     new_items_posted = 0
 
@@ -19,17 +21,28 @@ def post_to_telegram(bot_token, chat_id, items):
         item_id = item['title']
 
         if not add_and_check_item(item_id):
-            logging.info(f"Skipping duplicate: {item['title']}")
+            logger.info(f"Skipping duplicate: {item['title']}")
             continue
 
-        message = (
-            f"🎬 <b>{item['title']}</b>\n"
-            f"📦 <b>Size:</b> {item['size']}\n\n"
-            f"🧲 <b>Torrent:</b>\n"
-            f"<code>{item['torrent_link']}</code>"
-        )
+        # Determine source and set formatting
+        source = item.get('source', 'yts').lower()
 
-        send_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        if source == 'yts':
+            message = (
+                f"🎬 <b>{item['title']}</b>\n"
+                f"📦 <b>Size:</b> {item['size']}\n\n"
+                f"🧲 <b>Torrent:</b>\n"
+                f"<code>{item['torrent_link']}</code>"
+            )
+        else:
+            # Default to HD Encode style
+            message = (
+                f"📺 <b>{item['title']}</b>\n\n"
+                f"🧲 <b>Torrent:</b>\n"
+                f"<b>{item['torrent_link']}</b>"
+            )
+
+        send_url = f"https://api.telegram.org/bot {bot_token}/sendMessage"
         payload = {
             "chat_id": chat_id,
             "text": message,
@@ -43,23 +56,22 @@ def post_to_telegram(bot_token, chat_id, items):
             try:
                 response = requests.post(send_url, data=payload)
                 if response.status_code == 200:
-                    logging.info(f"Posted: {item['title']}")
+                    logger.info(f"Posted: {item['title']} ({source.upper()})")
                     new_items_posted += 1
-                    break  # Exit loop on success
+                    break
                 elif response.status_code == 429:
                     retry_after = int(response.json().get("parameters", {}).get("retry_after", 5))
-                    logging.warning(f"Flood limit hit. Retrying after {retry_after} seconds...")
+                    logger.warning(f"Flood limit hit. Retrying after {retry_after} seconds...")
                     time.sleep(retry_after)
                     attempt += 1
                 else:
-                    logging.error(f"Failed to post {item['title']}: {response.status_code} - {response.text}")
-                    break  # Not retryable
+                    logger.error(f"Failed to post {item['title']}: {response.status_code} - {response.text}")
+                    break
             except Exception as e:
-                logging.exception(f"Exception posting {item['title']}: {e}")
-                break  # Skip on general exception
+                logger.exception(f"Exception posting {item['title']}: {e}")
+                break
 
-        # Small delay to avoid hitting rate limits
-        time.sleep(1)
+        time.sleep(1)  # Rate-limiting delay
 
     if new_items_posted == 0:
-        logging.info("No new items to post.")
+        logger.info("No new items to post.")
