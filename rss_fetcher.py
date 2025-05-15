@@ -14,22 +14,20 @@ def extract_items(rss_content):
     items = []
 
     for item in root.findall('.//item'):
-        title = item.find('title').text
-        description = item.find('description').text
+        title_elem = item.find('title')
+        link_elem = item.find('link')
 
-        size_match = re.search(r'Size:\s*([\d.]+ MB)', description)
-        if not size_match:
-            size_match = re.search(r'(\d+\.\d+\s*[MG]B)', description, re.IGNORECASE)
+        if title_elem is None or link_elem is None:
+            logging.warning("Skipping invalid item (missing title or link)")
+            continue
 
-        size = size_match.group(1) if size_match else 'N/A'
-
-        enclosure = item.find('enclosure')
-        torrent_link = enclosure.get('url') if enclosure is not None else 'N/A'
+        title = title_elem.text.strip()
+        link = link_elem.text.strip()
 
         items.append({
             'title': title,
-            'size': size,
-            'torrent_link': torrent_link
+            'torrent_link': link,
+            'size': 'N/A',  # Not available in this feed
         })
 
     return items
