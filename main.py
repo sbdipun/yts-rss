@@ -25,7 +25,7 @@ app = Flask(__name__)
 def index():
     return "RSS is running!"
 
-# === Scheduler Job ===
+# === Scheduled Job ===
 def scheduled_job():
     logging.info("Fetching RSS feeds...")
     all_items = []
@@ -37,7 +37,7 @@ def scheduled_job():
             items = extract_items(rss_content)
             all_items.extend(items)
         except Exception as e:
-            logging.error(f"Error fetching feed {rss_url}: {e}")
+            logging.error(f"Error fetching {rss_url}: {e}")
 
     if all_items:
         try:
@@ -49,4 +49,23 @@ def scheduled_job():
         except Exception as e:
             logging.error(f"Error during telegram posting: {e}")
     else:
-        logging.info("No items found in any feed.")
+        logging.info("No new items found in any feed.")
+
+# === Initialize Scheduler ===
+try:
+    scheduler = BackgroundScheduler()
+
+    # Only add job if not already added
+    if not scheduler.get_jobs():
+        scheduler.add_job(
+            scheduled_job,
+            'interval',
+            minutes=config.CHECK_INTERVAL_MINUTES,
+            max_instances=1
+        )
+        scheduler.start()
+        logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
+    else:
+        logging.warning("Scheduler job already exists.")
+except Exception as e:
+    logging.error(f"Failed to initialize scheduler: {e}")
