@@ -3,6 +3,7 @@ import requests
 import time
 from deduplicator import add_and_check_item
 
+# Set up logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -29,26 +30,25 @@ def post_to_telegram(bot_token, chat_id, items):
 
         if source == 'yts':
             message = (
-                f"🎬 <b>{item['title']}</b>\n"
-                f"📦 <b>Size:</b> {item['size']}\n\n"
-                f"🧲 <b>Torrent:</b>\n"
+                f"🎬<b>{item['title']}</b>\n"
+                f"📦<b>Size:</b> {item['size']}\n\n"
+                f"🧲<b>Torrent:</b>\n"
                 f"<code>{item['torrent_link']}</code>"
             )
-        elif:
-            # Default to HD Encode style
+        elif source == 'hdencode':
             message = (
-                f"📺 <b>{item['title']}</b>\n\n"
-                f"🧲 <b>Link:</b>\n"
-                f"<b>{item['torrent_link']}</b>"
+                f"📺<b>{item['title']}</b>\n\n"
+                f"<b>Link:</b>\n"
+                f"<code>{item['torrent_link']}</code>"
             )
-        else:
-    # Default: TBL or unknown
+        else:  # tbl or unknown
             message = (
                 f"📀 <b>{item['title']}</b>\n\n"
+                f"🧲 <b>Magnet:</b>\n"
                 f"<pre><code>{item['torrent_link']}</code></pre>"
             )
 
-        send_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        send_url = f"https://api.telegram.org/bot {bot_token}/sendMessage"
         payload = {
             "chat_id": chat_id,
             "text": message,
@@ -65,7 +65,7 @@ def post_to_telegram(bot_token, chat_id, items):
                 if response.status_code == 200:
                     logger.info(f"Posted: {item['title']} ({source.upper()})")
                     new_items_posted += 1
-                    break
+                    break  # Exit loop on success
                 elif response.status_code == 429:
                     retry_after = int(response.json().get("parameters", {}).get("retry_after", 5))
                     logger.warning(f"Flood limit hit. Retrying after {retry_after} seconds...")
@@ -73,12 +73,12 @@ def post_to_telegram(bot_token, chat_id, items):
                     attempt += 1
                 else:
                     logger.error(f"Failed to post {item['title']}: {response.status_code} - {response.text}")
-                    break
+                    break  # Not retryable
             except Exception as e:
                 logger.exception(f"Exception posting {item['title']}: {e}")
-                break
+                break  # Skip on general exception
 
-        time.sleep(1)  # Rate-limiting delay
+        time.sleep(1)  # Prevent hitting Telegram rate limits
 
     if new_items_posted == 0:
         logger.info("No new items to post.")
