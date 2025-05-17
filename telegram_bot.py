@@ -39,7 +39,7 @@ def post_to_telegram(bot_token, chat_id, items):
             message = (
                 f"📺<b>{item['title']}</b>\n\n"
                 f"🧲<b>Link:</b>\n"
-                f"{item['torrent_link']}"
+                f"<b>{item['torrent_link']}</b>"
             )
         else:  # tbl or unknown
             message = (
