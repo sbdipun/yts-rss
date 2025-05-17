@@ -16,7 +16,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Base URL of the site
-TMV_BASE_URL = "https://example-tmv-site.com/latest "  # Replace with real URL
+TMV_BASE_URL = "https://www.1tamilmv.fi/"  # Replace with real URL
 
 def scrape_with_scraperapi(url):
     """
