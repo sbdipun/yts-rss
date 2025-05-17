@@ -7,6 +7,7 @@ from flask import Flask
 from rss_fetcher import fetch_rss_feed, extract_items
 from hdencode_rss import fetch_hdencode_feed, parse_hdencode_feed
 from telegram_bot import post_to_telegram
+from tbl import scrape_links  # 👈 Newly added import
 import config
 
 # === Logging Setup ===
@@ -53,6 +54,14 @@ def scheduled_job():
         all_items.extend(hde_items)
     except Exception as e:
         logging.error(f"Error processing HD Encode feed: {e}")
+
+     # --- Process TBL Feed (Custom Scraped Site) ---
+    try:
+        logging.info("Fetching TBL torrents...")
+        tbl_items = scrape_links()  # From tbl.py
+        all_items.extend(tbl_items)
+    except Exception as e:
+        logging.error(f"Error processing TBL feed: {e}")
 
     # --- Post Results ---
     if all_items:
