@@ -8,6 +8,7 @@ from rss_fetcher import fetch_rss_feed, extract_items
 from hdencode_rss import fetch_hdencode_feed, parse_hdencode_feed
 from telegram_bot import post_to_telegram
 from tbl import scrape_links  # 👈 Newly added import
+from tmv import tmv_scrape_links
 import config
 
 # === Logging Setup ===
@@ -63,6 +64,14 @@ def scheduled_job():
     except Exception as e:
         logging.error(f"Error processing TBL feed: {e}")
 
+    # --- Process TMV Feed (Custom Scraped Site) ---
+    try:
+        logging.info("Fetching TMV torrents...")
+        tmv_items = tmv_scrape_linkss()  # From tbl.py
+        all_items.extend(tmv_items)
+    except Exception as e:
+        logging.error(f"Error processing TMV feed: {e}")
+
     # --- Post Results ---
     if all_items:
         try:
@@ -86,7 +95,7 @@ try:
             scheduled_job,
             'interval',
             minutes=config.CHECK_INTERVAL_MINUTES,
-            max_instances=2
+            max_instances=3
         )
         scheduler.start()
         logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
