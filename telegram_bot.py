@@ -38,8 +38,8 @@ def post_to_telegram(bot_token, chat_id, items):
         elif source == 'hdencode':
             message = (
                 f"📺<b>{item['title']}</b>\n\n"
-                f"<b>Link:</b>\n"
-                f"<code>{item['torrent_link']}</code>"
+                f"🧲<b>Link:</b>\n"
+                f"{item['torrent_link']}"
             )
         else:  # tbl or unknown
             message = (
