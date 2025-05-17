@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.parse
 import re
+from config import TBL_BASE_URL
 
 # Set up logging
 logging.basicConfig(
