@@ -67,7 +67,7 @@ def scheduled_job():
     # --- Process TMV Feed (Custom Scraped Site) ---
     try:
         logging.info("Fetching TMV torrents...")
-        tmv_items = tmv_scrape_linkss()  # From tbl.py
+        tmv_items = tmv_scrape_links()  # From tbl.py
         all_items.extend(tmv_items)
     except Exception as e:
         logging.error(f"Error processing TMV feed: {e}")
