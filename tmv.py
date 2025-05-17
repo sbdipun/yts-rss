@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import html
 import os
+from config import TMV_BASE_URL
 
 # Set up logging
 logging.basicConfig(
