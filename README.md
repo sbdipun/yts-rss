@@ -1,4 +1,4 @@
-# 🎬 RSS-to-Telegram Torrent Poster Bot
+# 🎬 RSS-to-Telegram Post Bot
 
 A modular Python bot that scrapes multiple sites (including non-RSS ones), filters new content, and posts them to a Telegram channel with clean formatting.
 
