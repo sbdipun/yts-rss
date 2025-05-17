@@ -16,7 +16,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Base URL of the site you're scraping
-TBL_BASE_URL = "https://example-tbl-site.com/latest "  # Replace with real URL
+TBL_BASE_URL = "https://www.1tamilblasters.earth/"  # Replace with real URL
 
 def scrape_links():
     """
