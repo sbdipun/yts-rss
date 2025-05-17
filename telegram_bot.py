@@ -34,12 +34,18 @@ def post_to_telegram(bot_token, chat_id, items):
                 f"🧲 <b>Torrent:</b>\n"
                 f"<code>{item['torrent_link']}</code>"
             )
-        else:
+        elif:
             # Default to HD Encode style
             message = (
                 f"📺 <b>{item['title']}</b>\n\n"
                 f"🧲 <b>Link:</b>\n"
                 f"<b>{item['torrent_link']}</b>"
+            )
+        else:
+    # Default: TBL or unknown
+            message = (
+                f"📀 <b>{item['title']}</b>\n\n"
+                f"<pre><code>{item['torrent_link']}</code></pre>"
             )
 
         send_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
