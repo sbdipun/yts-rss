@@ -1,6 +1,6 @@
 # tmv.py
 
-import cloudscrape
+import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 import html
