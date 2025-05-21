@@ -1,6 +1,6 @@
 # tmv.py
 
-import logging
+import cloudscrape
 import requests
 from bs4 import BeautifulSoup
 import html
@@ -16,24 +16,36 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Base URL of the site
-TMV_BASE_URL = "https://www.1tamilmv.fi/"  # Replace with real URL
+TMV_BASE_URL = "https://www.1tamilmv.soy/"  # Replace with real URL
 
 def scrape_with_scraperapi(url):
     """
-    Fetches HTML content from a given URL using standard requests.
+    Fetches HTML content from a given URL using cloudscraper.
     """
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36"
+        logger.info(f"Fetching via cloudscraper: {url}")
+
+        # Create a cloudscraper instance
+        scraper = cloudscraper.create_scraper()
+
+        # Optional: Add proxy if needed
+        use_proxy = True
+        proxies = {
+            "https": "https://ogais4d6kcfVkEyuGy3nz1mT:GuRA1qAXgoi85mW9GZYJsJKN@in160.nordvpn.com:89"
         }
-        logger.info(f"Fetching TMV base page via requests: {url}")
-        response = requests.get(url, headers=headers)
+
+        # Fetch with or without proxy
+        if use_proxy:
+            response = scraper.get(url, proxies=proxies)
+        else:
+            response = scraper.get(url)
+
         response.raise_for_status()
         return response.text
+
     except Exception as e:
         logger.error(f"Error fetching {url}: {e}")
         return None
-
 
 def tmv_scrape_links():
     """
