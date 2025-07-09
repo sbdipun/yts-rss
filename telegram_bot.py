@@ -41,6 +41,12 @@ def post_to_telegram(bot_token, chat_id, items):
                 f"🧲<b>Link:</b>\n"
                 f"<b>{item['torrent_link']}</b>"
             )
+        elif source == 'bwt':
+            message = (
+                f"📀 <b>{item['title']}</b>\n"
+                f"📦 Size: {item['size']}\n\n"
+                f"<b>{item['torrent_link']}</b>"
+            )
         else:  # tbl or unknown
             message = (
                 f"📀 <b>{item['title']}</b>\n\n"
