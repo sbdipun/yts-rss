@@ -9,6 +9,7 @@ from hdencode_rss import fetch_hdencode_feed, parse_hdencode_feed
 from telegram_bot import post_to_telegram
 from tbl import scrape_links  # 👈 Newly added import
 from tmv import tmv_scrape_links
+from bwt import extract_bwt_items
 import config
 
 # === Logging Setup ===
@@ -71,6 +72,16 @@ def scheduled_job():
         all_items.extend(tmv_items)
     except Exception as e:
         logging.error(f"Error processing TMV feed: {e}")
+
+     # --- Process BW Torrents Feed ---
+    try:
+        logger.info("Fetching BW Torrents feed...")
+        bwt_url = config.BWTORRENTS_RSS_URL
+        bwt_content = fetch_rss_feed(bwt_url)
+        bwt_items = extract_bwt_items(bwt_content)
+        all_items.extend(bwt_items)
+    except Exception as e:
+        logger.error(f"Error fetching BW Torrents feed: {e}")
 
     # --- Post Results ---
     if all_items:
