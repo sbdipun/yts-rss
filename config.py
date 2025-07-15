@@ -10,6 +10,7 @@ TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
 
 # Optional values
 # config.py
+TORRENTING_RSS_URL = os.getenv("TORRENTING_RSS_URL", "https://torrenting.com/t.rss?5;18;4;82;49;99;47;38;11;55;3;40;1;u=1767736;tp=bnpjvcnhvnxqihbcxbokpcojzopxdgnt;DaddyCooL;private;do-not-share")
 YTS_RSS_URL = os.getenv("RSS_URL", "https://yts.mx/rss/0/all/all/0/all")
 CHECK_INTERVAL_MINUTES = int(os.getenv("CHECK_INTERVAL_MINUTES", "2"))
 HDENCODE_RSS_URL = os.getenv("HDENCODE_RSS_URL", "https://hdencode.org/feed/?sfw=pass1747284999")
