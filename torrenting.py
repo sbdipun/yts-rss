@@ -13,7 +13,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-def extract_bwt_items(rss_content):
+def extract_torrenting_items(rss_content):
     """
     Extracts items from BW Torrents RSS feed.
     Returns list of dicts with title, size, torrent_link, source
