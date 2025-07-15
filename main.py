@@ -10,6 +10,7 @@ from telegram_bot import post_to_telegram
 from tbl import scrape_links  # 👈 Newly added import
 from tmv import tmv_scrape_links
 from bwt import extract_bwt_items
+from torrenting import extract_torrenting_items
 import config
 
 # === Logging Setup ===
@@ -80,6 +81,16 @@ def scheduled_job():
         bwt_content = fetch_rss_feed(bwt_url)
         bwt_items = extract_bwt_items(bwt_content)
         all_items.extend(bwt_items)
+    except Exception as e:
+        logger.error(f"Error fetching BW Torrents feed: {e}")
+
+     # --- Process Torrenting Torrents Feed ---
+    try:
+        logger.info("Fetching BW Torrents feed...")
+        torenting_url = config.TORRENTING_RSS_URL
+        torenting_content = fetch_rss_feed(torenting_url)
+        torenting_items = extract_bwt_items(torenting_content)
+        all_items.extend(torenting_items)
     except Exception as e:
         logger.error(f"Error fetching BW Torrents feed: {e}")
 
