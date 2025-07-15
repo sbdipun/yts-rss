@@ -44,7 +44,7 @@ def extract_bwt_items(rss_content):
                 'title': title,
                 'size': size,
                 'torrent_link': torrent_link,
-                'source': 'bwt'
+                'source': 'torrenting'
             })
 
         logger.info(f"Extracted {len(items)} items from BW Torrents feed")
