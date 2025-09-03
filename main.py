@@ -11,6 +11,7 @@ from tbl import scrape_links  # 👈 Newly added import
 from tmv import tmv_scrape_links
 from bwt import extract_bwt_items
 from torrenting import extract_torrenting_items
+from sharespark import extract_sharespark_items
 import config
 
 # === Logging Setup ===
@@ -91,6 +92,16 @@ def scheduled_job():
         torenting_content = fetch_rss_feed(torenting_url)
         torenting_items = extract_bwt_items(torenting_content)
         all_items.extend(torenting_items)
+    except Exception as e:
+        logger.error(f"Error fetching BW Torrents feed: {e}")
+        
+     # --- Process sharespark rss Feed ---
+    try:
+        logger.info("Fetching sharespark feed...")
+        torenting_url = config.SHARESPARK_RSS_URL
+        torenting_content = fetch_rss_feed(sharespark_url)
+        torenting_items = extract_sharespark_items(sharespark_content)
+        all_items.extend(sharespark_items)
     except Exception as e:
         logger.error(f"Error fetching BW Torrents feed: {e}")
 
