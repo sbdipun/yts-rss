@@ -39,7 +39,7 @@ def extract_sharespark_items(rss_content):
             items.append({
                 'title': title,
                 'torrent_link': torrent_link,
-                'category': category
+                'category': category,
                 'source': 'sharespark'
             })
 
