@@ -13,7 +13,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-def extract_torrenting_items(rss_content):
+def extract_sharespark_items(rss_content):
     """
     Extracts items from SHARESPARK RSS feed.
     Returns list of dicts with title, size, link, category
