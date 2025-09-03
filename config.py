@@ -21,3 +21,4 @@ BWTORRENTS_RSS_URL = os.getenv(
     " https://bwtorrents.cc/rss.php?cat=145,120,188,125,116,124,114,117,189,190,113,118,115,121,119,194,192,128,132,129,130,127,131,141,140&passkey=22e2c513c1f2f48b8e9c126f537c9903"
 )
 TORRENTING_RSS_URL = os.getenv("TORRENTING_RSS_URL", "https://torrenting.com/t.rss?49;47;38;11;3;40;1;18;u=1767736;tp=bnpjvcnhvnxqihbcxbokpcojzopxdgnt;DaddyCooL;private;do-not-share")
+SHARESPARK_RSS_URL = os.getenv("SHARESPARK_RSS_URL", "https://ww1.sharespark.cfd/index.php?action=.xml;type=rss")
