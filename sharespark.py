@@ -34,11 +34,11 @@ def extract_sharespark_items(rss_content):
             title = title_elem.text.strip()
             category = category_elem.text.strip()
 
-            og_link = link_elem.text.strip()  # This is usually a magnet link or details page
+            torrent_link = link_elem.text.strip()  # This is usually a magnet link or details page
 
             items.append({
                 'title': title,
-                'og_link': og_link,
+                'torrent_link': torrent_link,
                 'category': category
                 'source': 'sharespark'
             })
