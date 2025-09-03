@@ -98,9 +98,9 @@ def scheduled_job():
      # --- Process sharespark rss Feed ---
     try:
         logger.info("Fetching sharespark feed...")
-        torenting_url = config.SHARESPARK_RSS_URL
-        torenting_content = fetch_rss_feed(sharespark_url)
-        torenting_items = extract_sharespark_items(sharespark_content)
+        sharespark_url = config.SHARESPARK_RSS_URL
+        sharespark_content = fetch_rss_feed(sharespark_url)
+        sharespark_items = extract_sharespark_items(sharespark_content)
         all_items.extend(sharespark_items)
     except Exception as e:
         logger.error(f"Error fetching BW Torrents feed: {e}")
