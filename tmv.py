@@ -32,7 +32,7 @@ def scrape_with_scraperapi(url):
         # Optional: Add proxy if needed
         use_proxy = True
         proxies = {
-            "https": "https": "https://x6DzSR6XnGeLnBLk32UPvjWg:CFcqTXQDxKybUf6qAHTmSxpW@in-mum.prod.surfshark.com:443"
+            "https": "https://x6DzSR6XnGeLnBLk32UPvjWg:CFcqTXQDxKybUf6qAHTmSxpW@in-mum.prod.surfshark.com:443"
         }
 
         # Fetch with or without proxy
