@@ -17,7 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Base URL of the site
-TMV_BASE_URL = "https://www.1tamilmv.mba/"  # Replace with real URL
+TMV_BASE_URL = "https://www.1tamilmv.army/"  # Replace with real URL
 
 def scrape_with_scraperapi(url):
     """
@@ -32,7 +32,7 @@ def scrape_with_scraperapi(url):
         # Optional: Add proxy if needed
         use_proxy = True
         proxies = {
-            "https": "https://x6DzSR6XnGeLnBLk32UPvjWg:CFcqTXQDxKybUf6qAHTmSxpW@in-mum.prod.surfshark.com:443"
+            "https": "https://bM5dfMwKwjAUEnaK7E88BcZz:FUJDjuJYva5DAZ77b5t2kktS@in-mum.prod.surfshark.com:443"
         }
 
         # Fetch with or without proxy
