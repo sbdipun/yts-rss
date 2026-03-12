@@ -2,12 +2,6 @@ import logging
 import xml.etree.ElementTree as ET
 import requests
 
-# Set up logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 def fetch_hdencode_feed(url):

@@ -7,12 +7,6 @@ import html
 import os
 from config import TMV_BASE_URL
 
-# Set up logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 # Base URL of the site

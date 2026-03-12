@@ -3,12 +3,6 @@ import requests
 import time
 from deduplicator import add_and_check_item
 
-# Set up logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 def post_to_telegram(bot_token, chat_id, items):

@@ -10,11 +10,6 @@ UPSTASH_REDIS_REST_TOKEN = os.getenv("UPSTASH_REDIS_REST_TOKEN")
 DEDUP_PREFIX = os.getenv("DEDUP_PREFIX", "yts-rss:posted")
 DEDUP_TTL_SECONDS = int(os.getenv("DEDUP_TTL_SECONDS", "0"))
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 

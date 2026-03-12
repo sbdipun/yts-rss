@@ -6,11 +6,6 @@ import re
 from config import TORRENTING_RSS_URL
 from rss_fetcher import fetch_rss_feed  # Reuse cloudscraper logic from rss_fetcher.py
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 def extract_torrenting_items(rss_content):
