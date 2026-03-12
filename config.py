@@ -9,7 +9,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
 
 # Feed/source values (set in .env / Render env vars)
-YTS_RSS_URL = os.getenv("RSS_URL", "")
+YTS_RSS_URL = os.getenv("YTS_RSS_URL", "")
 CHECK_INTERVAL_MINUTES = int(os.getenv("CHECK_INTERVAL_MINUTES", "2"))
 HDENCODE_RSS_URL = os.getenv("HDENCODE_RSS_URL", "")
 TBL_BASE_URL = os.getenv("TBL_BASE_URL", "")
