@@ -118,7 +118,8 @@ def scheduled_job():
                 {
                     "title": item.get("name", "").strip(),
                     "torrent_link": item.get("link", "").strip(),
-                    "size": item.get("size", "N/A")
+                    "size": item.get("size", "N/A"),
+                    "source": "filelist",
                 }
                 for item in filelist_raw_items
                 if item.get("name") and item.get("link")
