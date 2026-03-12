@@ -31,3 +31,14 @@ Built with:
 ---
 
 ## 📦 File Structure
+
+## Upstash Redis deduplication
+
+Set these environment variables to enable Redis-backed deduplication:
+
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+- `DEDUP_PREFIX` (optional, default: `yts-rss:posted`)
+- `DEDUP_TTL_SECONDS` (optional, default: `0` which means no expiry)
+
+If Upstash variables are not set, the app falls back to local `posted_items.txt`.

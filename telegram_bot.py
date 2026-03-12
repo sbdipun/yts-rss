@@ -19,14 +19,14 @@ def post_to_telegram(bot_token, chat_id, items):
     new_items_posted = 0
 
     for item in items:
-        item_id = item['title']
+        source = item.get('source', 'yts').lower()
+        item_id = f"{source}|{item.get('title', '')}|{item.get('torrent_link', '')}"
 
         if not add_and_check_item(item_id):
             logger.info(f"Skipping duplicate: {item['title']}")
             continue
 
         # Determine source and set formatting
-        source = item.get('source', 'yts').lower()
 
         if source == 'yts':
             message = (

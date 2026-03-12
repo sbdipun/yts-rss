@@ -2,7 +2,6 @@
 
 import logging
 import cloudscraper
-import requests
 from bs4 import BeautifulSoup
 import html
 import os
