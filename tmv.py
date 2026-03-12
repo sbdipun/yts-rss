@@ -9,9 +9,6 @@ from config import TMV_BASE_URL
 
 logger = logging.getLogger(__name__)
 
-# Base URL of the site
-TMV_BASE_URL = "https://www.1tamilmv.army/"  # Replace with real URL
-
 def scrape_with_scraperapi(url):
     """
     Fetches HTML content from a given URL using cloudscraper.
@@ -22,14 +19,13 @@ def scrape_with_scraperapi(url):
         # Create a cloudscraper instance
         scraper = cloudscraper.create_scraper()
 
-        # Optional: Add proxy if needed
-        use_proxy = True
-        proxies = {
-            "https": "https://bM5dfMwKwjAUEnaK7E88BcZz:FUJDjuJYva5DAZ77b5t2kktS@in-mum.prod.surfshark.com:443"
-        }
+        # Optional proxy config via env vars
+        use_proxy = os.getenv("TMV_USE_PROXY", "false").lower() == "true"
+        proxy_url = os.getenv("TMV_PROXY_URL", "").strip()
+        proxies = {"https": proxy_url} if proxy_url else None
 
         # Fetch with or without proxy
-        if use_proxy:
+        if use_proxy and proxies:
             response = scraper.get(url, proxies=proxies)
         else:
             response = scraper.get(url)
