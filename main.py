@@ -12,6 +12,7 @@ from tmv import tmv_scrape_links
 from bwt import extract_bwt_items
 from torrenting import extract_torrenting_items
 from sharespark import extract_sharespark_items
+from filelist import extract_filelist_items
 import config
 
 # === Logging Setup ===
@@ -104,6 +105,29 @@ def scheduled_job():
         all_items.extend(sharespark_items)
     except Exception as e:
         logger.error(f"Error fetching BW Torrents feed: {e}")
+
+    # --- Process Filelist RSS Feed ---
+    try:
+        filelist_url = config.FILELIST_RSS_URL
+        if filelist_url:
+            logger.info("Fetching Filelist feed...")
+            filelist_content = fetch_rss_feed(filelist_url)
+            filelist_raw_items = extract_filelist_items(filelist_content)
+
+            filelist_items = [
+                {
+                    "title": item.get("name", "").strip(),
+                    "torrent_link": item.get("link", "").strip(),
+                    "size": item.get("size", "N/A")
+                }
+                for item in filelist_raw_items
+                if item.get("name") and item.get("link")
+            ]
+            all_items.extend(filelist_items)
+        else:
+            logger.info("FILELIST_RSS_URL is not set. Skipping Filelist feed.")
+    except Exception as e:
+        logger.error(f"Error fetching Filelist feed: {e}")
 
     # --- Post Results ---
     if all_items:
