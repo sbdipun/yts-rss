@@ -32,13 +32,12 @@ Built with:
 
 ## 📦 File Structure
 
-## Upstash Redis deduplication
+## MongoDB deduplication
 
-Set these environment variables to enable Redis-backed deduplication:
+Set these environment variables to enable MongoDB-backed deduplication:
 
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
-- `DEDUP_PREFIX` (optional, default: `yts-rss:posted`)
-- `DEDUP_TTL_SECONDS` (optional, default: `0` which means no expiry)
+- `MONGODB_URI`
+- `MONGODB_DB` (optional, default: `yts_rss`)
+- `MONGODB_COLLECTION` (optional, default: `posted_items`)
 
-If Upstash variables are not set, the app falls back to local `posted_items.txt`.
+The app creates a unique index on `item_hash` and uses duplicate-key handling to prevent reposts.
