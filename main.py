@@ -153,7 +153,7 @@ try:
             scheduled_job,
             'interval',
             minutes=config.CHECK_INTERVAL_MINUTES,
-            max_instances=3
+            max_instances=4
         )
         scheduler.start()
         logging.info(f"Scheduler started. Checking every {config.CHECK_INTERVAL_MINUTES} minute(s).")
